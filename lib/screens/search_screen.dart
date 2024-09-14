@@ -162,30 +162,33 @@ class _ScreenSearchState extends State<ScreenSearch> {
                                   crossAxisSpacing: 5,
                                   childAspectRatio: 1.2 / 2),
                           itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                // shows netflix logo if backdroppath is null( ie, if api has no image)
-                                searchModel!.results[index].backdropPath == null
-                                    ? Image.asset(
-                                        "assets/netflix.png",
-                                        height: 170,
-                                      )
-                                    : CachedNetworkImage(
-                                        imageUrl:
-                                            "$imageUrl${searchModel!.results[index].backdropPath}",
-                                        height: 170),
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    searchModel!.results[index].originalTitle,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14,
+                            return InkWell(
+                              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScreenMovieDetails(movieId: searchModel!.results[index].id))),
+                              child: Column( 
+                                children: [
+                                  // shows netflix logo if backdroppath is null( ie, if api has no image)
+                                  searchModel!.results[index].backdropPath == null
+                                      ? Image.asset(
+                                          "assets/netflix.png",
+                                          height: 170,
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl:
+                                              "$imageUrl${searchModel!.results[index].backdropPath}",
+                                          height: 170),
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      searchModel!.results[index].originalTitle,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             );
                           })
             ],

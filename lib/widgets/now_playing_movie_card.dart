@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_app_clone/common/utils.dart';
 import 'package:netflix_app_clone/models/nowplaying_model.dart';
+import 'package:netflix_app_clone/screens/movie_details_screen.dart';
 
 class NowplayingMovieCard extends StatelessWidget {
   final Future<NowPlayingModel> future;
@@ -28,16 +29,19 @@ class NowplayingMovieCard extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Expanded(
+                Expanded( 
                   child: ListView.builder( 
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20)),
-                        //! displaying the image
-                        child:
-                            Image.network("$imageUrl${data[index].posterPath}"),
+                      return InkWell(
+                        onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScreenMovieDetails(movieId: data[index].id))),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20)),
+                          //! displaying the image
+                          child:
+                              Image.network("$imageUrl${data[index].posterPath}"),
+                        ),
                       );
                     },
                     itemCount: data!.length,

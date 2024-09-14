@@ -101,7 +101,7 @@ class ApiServices {
     endPoint = "movie/$movieId";
     final url = "$baseUrl$endPoint$key";
 
-    print("Search url is $url");
+    print("Movie detail url is $url");
 
     final response = await http.get(Uri.parse(url));
 
@@ -113,5 +113,22 @@ class ApiServices {
     }
   }
 
+  
+  //! Movie Selected Recommendation
+  Future<MovieRecommendationModel> getMovieRecomentation(int movieId) async {
+    endPoint = "movie/$movieId/recommendations";
+    final url = "$baseUrl$endPoint$key";
+
+    print("recommendations url is $url");
+
+    final response = await http.get(Uri.parse(url)); 
+
+    if(response.statusCode == 200) {
+      log("Movie Recomentaions fetch Success"); 
+      return MovieRecommendationModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failed to load more movies like this!!!");
+    }
+  }
 
 }

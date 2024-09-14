@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_app_clone/common/utils.dart';
 import 'package:netflix_app_clone/models/movie_detail_model.dart';
+import 'package:netflix_app_clone/models/movie_recommendation_model.dart';
 import 'package:netflix_app_clone/services/api_services.dart';
 
 class ScreenMovieDetails extends StatefulWidget {
@@ -16,6 +20,7 @@ class _ScreenMovieDetailsState extends State<ScreenMovieDetails> {
   ApiServices apiServices = ApiServices();
 
   late Future<MovieDetailModel> movieDetail;
+  late Future<MovieRecommendationModel> movieRecommendation;
 
   @override
   void initState() {
@@ -26,6 +31,7 @@ class _ScreenMovieDetailsState extends State<ScreenMovieDetails> {
   // function for getting the movie details
   fetchInitialData() {
     movieDetail = apiServices.getMovieDetail(widget.movieId);
+    movieRecommendation = apiServices.getMovieRecomentation(widget.movieId);
     setState(() {});
   }
 
@@ -40,7 +46,8 @@ class _ScreenMovieDetailsState extends State<ScreenMovieDetails> {
             if (snapshot.hasData) {
               final movie = snapshot.data;
               // making all the genres accessible with a single variable by joining
-              String genereText = movie!.genres.map((genre) => genre.name).join(', ');
+              String genereText =
+                  movie!.genres.map((genre) => genre.name).join(', ');
               return Column(
                 children: [
                   //! big image
@@ -71,31 +78,96 @@ class _ScreenMovieDetailsState extends State<ScreenMovieDetails> {
                           ),
                         ),
                       )
-                    ], 
+                    ],
                   ),
 
+                  SizedBox(height: 20),
+
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //! movie title
-                      Text(movie.title, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
-                      SizedBox(height: 15,),
+                      Text(
+                        movie.title,
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Row(
                         children: [
                           //! data
-                          Text(movie.releaseDate.year.toString(),style: TextStyle(color: Colors.grey)),
+                          Text(movie.releaseDate.year.toString(),
+                              style: TextStyle(color: Colors.grey)),
                           SizedBox(width: 30),
                           //! genere text
-                          Text(genereText, style: TextStyle(color: Colors.grey, fontSize: 17)),
+                          Text(genereText,
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 17)),
                         ],
                       ),
-                       SizedBox(height: 20,),
-                       //! description
-                       Text(movie.overview,
-                       maxLines: 6,
-                       overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      //! description
+                      Text(movie.overview,
+                          maxLines: 6,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.white, fontSize: 17)),
                     ],
-                  )
+                  ),
+
+                  SizedBox(height: 30),
+
+                  FutureBuilder(
+                      future: movieRecommendation,
+                      builder: (context, snapshot) {
+                        log("Got Recommendations based on selected movie.${snapshot.data}");
+                        if (snapshot.hasData) {
+                          final movieRecommendations = snapshot.data;
+                          //! show recommentation if only data exists
+                          return movieRecommendations!.results.isEmpty
+                              ? SizedBox()
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("More like this"),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    GridView.builder(
+                                        itemCount:
+                                            movieRecommendations.results.length,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                mainAxisSpacing: 15,
+                                                crossAxisSpacing: 5,
+                                                childAspectRatio: 1.5 / 2),
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                              onTap: () => Navigator.of(context)
+                                                  .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ScreenMovieDetails(
+                                                              movieId:
+                                                                  movieRecommendations
+                                                                      .results[
+                                                                          index]
+                                                                      .id))),
+                                              child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      "$imageUrl${movieRecommendations.results[index].posterPath}"));
+                                        })
+                                  ],
+                                );
+                        } else {
+                          return SizedBox.shrink();
+                        }
+                      })
                 ],
               );
             } else {
