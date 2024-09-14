@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:netflix_app_clone/common/utils.dart';
+import 'package:netflix_app_clone/models/movie_detail_model.dart';
+import 'package:netflix_app_clone/models/movie_recommendation_model.dart';
 import 'package:netflix_app_clone/models/nowplaying_model.dart';
 import 'package:netflix_app_clone/models/search_model.dart';
 import 'package:netflix_app_clone/models/tv_series_model.dart';
@@ -75,6 +77,39 @@ class ApiServices {
       return SearchModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception("Failed to load searched movie");
+    }
+  }
+
+  //! Movie Recommendation
+  Future<MovieRecommendationModel> getPopularMovies() async {
+    endPoint = "movie/popular";
+    final url = "$baseUrl$endPoint$key";
+
+    final response = await http.get(Uri.parse(url));
+
+    if(response.statusCode == 200) {
+      log("Movie Recommendations success");
+
+      return MovieRecommendationModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failed to load movie recommendations");
+    }
+  }
+
+  //! Movie Details
+  Future<MovieDetailModel> getMovieDetail(int movieId) async {
+    endPoint = "movie/$movieId";
+    final url = "$baseUrl$endPoint$key";
+
+    print("Search url is $url");
+
+    final response = await http.get(Uri.parse(url));
+
+    if(response.statusCode == 200) {
+      log("Movie Details fetch Success");
+      return MovieDetailModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failed to load movie-detail");
     }
   }
 
