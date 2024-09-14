@@ -77,7 +77,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                     if(snapshot.hasData) {
                       return CustomCarousel(data: snapshot.data!);
                     } else {
-                      return SizedBox.shrink();
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.grey,
+                        ),
+                      );
                     }
                     
                   }),

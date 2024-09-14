@@ -48,7 +48,7 @@ class NowplayingMovieCard extends StatelessWidget {
               ],
             );
           } else {
-            return SizedBox.shrink();
+            return Center(child: CircularProgressIndicator(color: Colors.grey,));
           }
         });
   }
