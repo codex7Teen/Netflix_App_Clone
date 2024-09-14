@@ -25,7 +25,7 @@ class ComingSoonMovieWidget extends StatelessWidget {
         children: [
           //! month and day
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8), 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start ,
               children: [
@@ -60,8 +60,9 @@ class ComingSoonMovieWidget extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  //! this sized-box defines the size of the image
                   SizedBox(
-                    width: size.width * 0.5,
+                    width: size.width * 0.3,
                     height: size.height * 0.2,
                     child: CachedNetworkImage(
                       imageUrl: logoUrl,
