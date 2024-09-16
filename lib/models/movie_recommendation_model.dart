@@ -46,70 +46,66 @@ class MovieRecommendationModel {
 }
 
 class Result {
+    bool adult;
     String backdropPath;
+    List<int> genreIds;
     int id;
-    String title;
+    OriginalLanguage originalLanguage;
     String originalTitle;
     String overview;
-    String posterPath;
-    MediaType mediaType;
-    bool adult;
-    String originalLanguage;
-    List<int> genreIds;
     double popularity;
+    String posterPath;
     DateTime releaseDate;
+    String title;
     bool video;
     double voteAverage;
     int voteCount;
 
     Result({
+        required this.adult,
         required this.backdropPath,
+        required this.genreIds,
         required this.id,
-        required this.title,
+        required this.originalLanguage,
         required this.originalTitle,
         required this.overview,
-        required this.posterPath,
-        required this.mediaType,
-        required this.adult,
-        required this.originalLanguage,
-        required this.genreIds,
         required this.popularity,
+        required this.posterPath,
         required this.releaseDate,
+        required this.title,
         required this.video,
         required this.voteAverage,
         required this.voteCount,
     });
 
     Result copyWith({
+        bool? adult,
         String? backdropPath,
+        List<int>? genreIds,
         int? id,
-        String? title,
+        OriginalLanguage? originalLanguage,
         String? originalTitle,
         String? overview,
-        String? posterPath,
-        MediaType? mediaType,
-        bool? adult,
-        String? originalLanguage,
-        List<int>? genreIds,
         double? popularity,
+        String? posterPath,
         DateTime? releaseDate,
+        String? title,
         bool? video,
         double? voteAverage,
         int? voteCount,
     }) => 
         Result(
+            adult: adult ?? this.adult,
             backdropPath: backdropPath ?? this.backdropPath,
+            genreIds: genreIds ?? this.genreIds,
             id: id ?? this.id,
-            title: title ?? this.title,
+            originalLanguage: originalLanguage ?? this.originalLanguage,
             originalTitle: originalTitle ?? this.originalTitle,
             overview: overview ?? this.overview,
-            posterPath: posterPath ?? this.posterPath,
-            mediaType: mediaType ?? this.mediaType,
-            adult: adult ?? this.adult,
-            originalLanguage: originalLanguage ?? this.originalLanguage,
-            genreIds: genreIds ?? this.genreIds,
             popularity: popularity ?? this.popularity,
+            posterPath: posterPath ?? this.posterPath,
             releaseDate: releaseDate ?? this.releaseDate,
+            title: title ?? this.title,
             video: video ?? this.video,
             voteAverage: voteAverage ?? this.voteAverage,
             voteCount: voteCount ?? this.voteCount,
@@ -120,48 +116,50 @@ class Result {
     String toRawJson() => json.encode(toJson());
 
     factory Result.fromJson(Map<String, dynamic> json) => Result(
+        adult: json["adult"],
         backdropPath: json["backdrop_path"],
+        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
-        title: json["title"],
+        originalLanguage: originalLanguageValues.map[json["original_language"]]!,
         originalTitle: json["original_title"],
         overview: json["overview"],
-        posterPath: json["poster_path"],
-        mediaType: mediaTypeValues.map[json["media_type"]]!,
-        adult: json["adult"],
-        originalLanguage: json["original_language"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         popularity: json["popularity"]?.toDouble(),
+        posterPath: json["poster_path"],
         releaseDate: DateTime.parse(json["release_date"]),
+        title: json["title"],
         video: json["video"],
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],
     );
 
     Map<String, dynamic> toJson() => {
+        "adult": adult,
         "backdrop_path": backdropPath,
+        "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
         "id": id,
-        "title": title,
+        "original_language": originalLanguageValues.reverse[originalLanguage],
         "original_title": originalTitle,
         "overview": overview,
-        "poster_path": posterPath,
-        "media_type": mediaTypeValues.reverse[mediaType],
-        "adult": adult,
-        "original_language": originalLanguage,
-        "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
         "popularity": popularity,
+        "poster_path": posterPath,
         "release_date": "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
+        "title": title,
         "video": video,
         "vote_average": voteAverage,
         "vote_count": voteCount,
     };
 }
 
-enum MediaType {
-    MOVIE
+enum OriginalLanguage {
+    CN,
+    EN,
+    HI
 }
 
-final mediaTypeValues = EnumValues({
-    "movie": MediaType.MOVIE
+final originalLanguageValues = EnumValues({
+    "cn": OriginalLanguage.CN,
+    "en": OriginalLanguage.EN,
+    "hi": OriginalLanguage.HI
 });
 
 class EnumValues<T> {
