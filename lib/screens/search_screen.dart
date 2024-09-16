@@ -53,28 +53,31 @@ class _ScreenSearchState extends State<ScreenSearch> {
           child: Column(
             children: [
               //! Search Bar
-              CupertinoSearchTextField(
-                padding: EdgeInsets.all(10),
-                controller: searchController,
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CupertinoSearchTextField(
+                  padding: EdgeInsets.all(15),
+                  controller: searchController,
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  suffixIcon: Icon(
+                    Icons.cancel,
+                    color: Colors.grey,
+                  ),
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                  backgroundColor: Colors.grey.withOpacity(0.25),
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      // perform noting
+                    } else {
+                      search(searchController.text);
+                    }
+                  },
                 ),
-                suffixIcon: Icon(
-                  Icons.cancel,
-                  color: Colors.grey,
-                ),
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-                backgroundColor: Colors.grey.withOpacity(0.25),
-                onChanged: (value) {
-                  if (value.isEmpty) {
-                    // perform noting
-                  } else {
-                    search(searchController.text);
-                  }
-                },
               ),
 
               //! Show recommendation when search is empty
@@ -90,7 +93,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(
-                                height: 30,
+                                height: 20,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
@@ -100,7 +103,7 @@ class _ScreenSearchState extends State<ScreenSearch> {
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 22,
                               ),
                               ListView.builder(
                                 physics: NeverScrollableScrollPhysics(),

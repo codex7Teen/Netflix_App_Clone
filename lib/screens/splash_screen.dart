@@ -38,7 +38,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
               MaterialPageRoute(builder: (context) => BottomNavBar())));
     }
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Center(child: Lottie.asset("assets/netflix.json"));
