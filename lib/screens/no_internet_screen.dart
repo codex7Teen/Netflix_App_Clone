@@ -53,8 +53,10 @@ class ScreenNoInternet extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () => Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => ScreenSplash())),
+              onTap: () =>  Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => ScreenSplash()),
+                  (route) => false,
+                )
             )
           ],
         ),
