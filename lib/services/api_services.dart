@@ -101,8 +101,6 @@ class ApiServices {
     endPoint = "movie/$movieId";
     final url = "$baseUrl$endPoint$key";
 
-    print("Movie detail url is $url");
-
     final response = await http.get(Uri.parse(url));
 
     if(response.statusCode == 200) {
@@ -118,8 +116,6 @@ class ApiServices {
   Future<MovieRecommendationModel> getMovieRecomentation(int movieId) async {
     endPoint = "movie/$movieId/recommendations";
     final url = "$baseUrl$endPoint$key";
-
-    print("recommendations url is $url");
 
     final response = await http.get(Uri.parse(url)); 
 
