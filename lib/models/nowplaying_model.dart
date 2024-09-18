@@ -192,13 +192,15 @@ class Result {
 enum OriginalLanguage {
     CN,
     EN,
-    HI
+    HI,
+    ZH
 }
 
 final originalLanguageValues = EnumValues({
     "cn": OriginalLanguage.CN,
     "en": OriginalLanguage.EN,
-    "hi": OriginalLanguage.HI
+    "hi": OriginalLanguage.HI,
+    "zh": OriginalLanguage.ZH
 });
 
 class EnumValues<T> {

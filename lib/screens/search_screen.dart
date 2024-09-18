@@ -54,11 +54,12 @@ class _ScreenSearchState extends State<ScreenSearch> {
             children: [
               //! Search Bar
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 8,right: 8, top: 16),
                 child: CupertinoSearchTextField(
                   padding: EdgeInsets.all(15),
                   controller: searchController,
                   prefixIcon: Icon(
+                    size: 21,
                     Icons.search,
                     color: Colors.grey,
                   ),

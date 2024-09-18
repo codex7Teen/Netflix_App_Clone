@@ -102,9 +102,13 @@ class _ScreenMovieDetailsState extends State<ScreenMovieDetails> {
                               style: TextStyle(color: Colors.grey)),
                           SizedBox(width: 30),
                           //! genere text
-                          Text(genereText,
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 17)),
+                          Expanded(
+                            child: Text(genereText,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 17)),
+                          ),
                         ],
                       ),
                       SizedBox(
